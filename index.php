@@ -49,14 +49,14 @@ $dir = '/home/c/cs333/public_html/handback/scans';
 $ruser = $_SERVER['REMOTE_USER'];
 # don't allow periods in directory names. Prevents hacking using ../
 $allowed_filenames = "/^[a-zA-Z0-9]+[-\/_a-zA-Z0-9]*[-_\.a-zA-Z0-9]*".$ruser."\.pdf$/";
-$htmlout = "<html>\n<head></head>\n<body>\n";
-$htmlout .= "<h2>Download $course exams handed in by $ruser</h2>\n";
 
 if (!$ruser) {
     exit;
 }
 
-if (is_dir($dir)) {
+$errors = array();
+$htmlout = '';
+if (is_dir($dir) && is_readable($dir)) {
     if (isset($_GET['file'])) {
         if (preg_match($allowed_filenames, $_GET['file'], $matches)) {
             $file = $matches[0];
@@ -93,10 +93,20 @@ if (is_dir($dir)) {
         $htmlout .= "</pre></blockquote>\n";
     }
 } else {
-    $htmlout .= "There was a problem with the scans dir... ";
+    $htmlout .= "There is a problem with the scans dir... ";
 }
+?>
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Handback</title>
 
-print_r($htmlout);
+</head>
+<body>
+<h2>Download $course exams handed in by <?php print $ruser; ?></h2>
+<?php
+print $htmlout;
 
 #print_r("<br>$dir<br>\n");
 #print_r("<br><pre>");
