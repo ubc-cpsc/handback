@@ -1,0 +1,5 @@
+SSLRequireSSL
+AuthType Basic
+AuthName "UBC CPSC Handback"
+AuthBasicProvider ldap-domain
+Require valid-user
