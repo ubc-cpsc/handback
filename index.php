@@ -59,7 +59,7 @@ $htmlout = '';
 if (is_dir($dir) && is_readable($dir)) {
     if (isset($_GET['file'])) {
         if (preg_match($allowed_filenames, $_GET['file'], $matches)) {
-            $file = $matches[0];
+            $file = htmlspecialchars($matches[0], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
             $htmlout .= "<p>File specified: " . $file . "</p>\n";
             $dir = $dir . '/' . $file;
             if (is_file($dir)) {
