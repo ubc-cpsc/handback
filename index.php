@@ -44,29 +44,38 @@ function getDirectory($path, $allowed_filenames, $level = 0)
     return $retval;
 }
 
-$course = 'cs333';
-$dir = '/home/c/cs333/public_html/handback/scans';
 $ruser = $_SERVER['REMOTE_USER'];
+if (!$ruser) {
+    echo "No user id!";
+    exit;
+}
+
+$course      = 'csNNN';
+$handbackDir = '/home/c/csNNN/public_html/handback/deliverThis';
+$heading     = "<h2>Download $course files for $ruser</h2>";
+$subheading  = "Files for you:<br>";
+
 # don't allow periods in directory names. Prevents hacking using ../
 $allowed_filenames = "/^[a-zA-Z0-9]+[-\/_a-zA-Z0-9]*[-_\.a-zA-Z0-9]*".$ruser."\.pdf$/";
 
-if (!$ruser) {
-    exit;
+# Put overrides of above parameters in a separate file.
+if (file_exists('handback.cfg')) {
+    include 'handback.cfg';
 }
 
 $errors = array();
 $htmlout = '';
-if (is_dir($dir) && is_readable($dir)) {
+if (is_dir($handbackDir) && is_readable($handbackDir)) {
     if (isset($_GET['file'])) {
         if (preg_match($allowed_filenames, $_GET['file'], $matches)) {
             $file = htmlspecialchars($matches[0], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
             $htmlout .= "<p>File specified: " . $file . "</p>\n";
-            $dir = $dir . '/' . $file;
-            if (is_file($dir)) {
-                $htmlout .= "File exists: " . $dir;
-                if ($fd = fopen($dir, "r")) {
-                    $fsize = filesize($dir);
-                    $path_parts = pathinfo($dir);
+            $handbackDir = $handbackDir . '/' . $file;
+            if (is_file($handbackDir)) {
+                $htmlout .= "File exists: " . $handbackDir;
+                if ($fd = fopen($handbackDir, "r")) {
+                    $fsize = filesize($handbackDir);
+                    $path_parts = pathinfo($handbackDir);
                     header("Content-type: application/octet-stream");
                     header("Content-disposition: filename=\"".$path_parts["basename"]."\"");
                     header("Content-length: $fsize");
@@ -78,22 +87,22 @@ if (is_dir($dir) && is_readable($dir)) {
                     fclose($fd);
                     exit;
                 } else {
-                    $htmlout .= "Couldn't open file: " . $dir;
+                    $htmlout .= "Couldn't open file: " . $handbackDir;
                 }
             } else {
-                $htmlout .= "No such file: " . $dir;
+                $htmlout .= "No such file: " . $handbackDir;
             }
         } else {
             $htmlout .= "Bad file parameter\n";
         }
     } else {
-        $htmlout .= "Exams you've written:<br>\n";
+        $htmlout .= "$subheading\n";
         $htmlout .= "<blockquote><pre>\n";
-        $htmlout .= getDirectory($dir, $allowed_filenames);
+        $htmlout .= getDirectory($handbackDir, $allowed_filenames);
         $htmlout .= "</pre></blockquote>\n";
     }
 } else {
-    $htmlout .= "There is a problem with the scans dir... ";
+    $htmlout .= "There is a problem with the handback dir... ";
 }
 ?>
 <!doctype html>
@@ -104,11 +113,11 @@ if (is_dir($dir) && is_readable($dir)) {
 
 </head>
 <body>
-<h2>Download $course exams handed in by <?php print $ruser; ?></h2>
 <?php
+print $heading;
 print $htmlout;
 
-#print_r("<br>$dir<br>\n");
+#print_r("<br>$handbackDir<br>\n");
 #print_r("<br><pre>");
 #var_dump($GLOBALS);
 #var_dump($_SERVER);

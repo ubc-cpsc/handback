@@ -1,0 +1,5 @@
+<?php
+$course      = 'csNNN';
+$handbackDir = '/home/c/csNNN/public_html/handback/deliverThis';
+$heading     = "<h2>Download $course files for $ruser</h2>";
+$subheading  = "Files for you:<br>";
