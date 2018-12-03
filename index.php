@@ -49,6 +49,8 @@ if (!$ruser) {
     echo "No user id!";
     exit;
 }
+# Case insensitive authentication probably works... Force lower case.
+$ruser = strtolower($ruser);
 # Pattern match $ruser here, just in case...
 if (! preg_match("/^[a-zA-Z0-9]+$/", $ruser)) {
     echo "Bad user id: $ruser";
