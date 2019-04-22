@@ -63,7 +63,8 @@ $heading     = "<h2>Download $course files for $ruser</h2>";
 $subheading  = "Files for you:<br>";
 
 # don't allow periods in directory names. Prevents hacking using ../
-$allowed_filenames = "/^[a-zA-Z0-9]+[-\/_a-zA-Z0-9]*[-_\.a-zA-Z0-9]*".$ruser."\.pdf$/";
+# Also, 'wall in' userid with a '%' character.
+$allowed_filenames = "/^[a-zA-Z0-9]+[-\/_a-zA-Z0-9]*[-_\.a-zA-Z0-9]*%".$ruser."\.pdf$/";
 
 # Put overrides of above parameters in a separate file.
 if (file_exists('handback.cfg')) {
