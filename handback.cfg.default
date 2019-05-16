@@ -7,5 +7,5 @@ $subheading  = "Files for you:<br>";
 # Give administrators access to all files.
 #$superUsers  = array('instructorX', 'taXYZ');
 #if (in_array($ruser, $superUsers)) {
-#    $allowed_filenames = "/^[a-zA-Z0-9]+[-\/_a-zA-Z0-9]*[-_\.a-zA-Z0-9]*$/";
+#    $allowed_filenames = "/^[a-zA-Z0-9]+[-\/_a-zA-Z0-9]*[-%_\.a-zA-Z0-9]*$/";
 #}   

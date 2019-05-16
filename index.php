@@ -64,7 +64,7 @@ $subheading  = "Files for you:<br>";
 
 # don't allow periods in directory names. Prevents hacking using ../
 # Also, 'wall in' userid with a '%' character.
-$allowed_filenames = "/^[a-zA-Z0-9]+[-\/_a-zA-Z0-9]*[-_\.a-zA-Z0-9]*%".$ruser."\.pdf$/";
+$allowed_filenames = "/^[a-zA-Z0-9]+[-\/_a-zA-Z0-9]*[-%_\.a-zA-Z0-9]*%".$ruser."(?:%[-_\.a-zA-Z0-9]*)*\.pdf$/";
 
 # Put overrides of above parameters in a separate file.
 if (file_exists('handback.cfg')) {
