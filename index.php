@@ -34,7 +34,7 @@ function getDirectory($path, $allowed_filenames, $level = 0)
             } else {
                 if (preg_match($allowed_filenames, $file, $matches)) {
                     $retval .= str_repeat(' ', ( $level * 4 )); // indenting
-                    $retval .= "<a href=\"?file=$base$file\">$file</a>\n";
+                    $retval .= "<a href=\"?file=" . urlencode("$base$file") . "\">$file</a>\n";
                 }
             }
         }
