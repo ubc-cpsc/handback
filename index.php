@@ -64,7 +64,7 @@ $subheading  = "Files for you:<br>";
 
 # don't allow periods in directory names. Prevents hacking using ../
 # Also, 'wall in' userid with a '%' character.
-$allowed_filenames = "/^[a-zA-Z0-9]+[-\/_a-zA-Z0-9]*[-%_\.a-zA-Z0-9]*%".$ruser."(?:%[-_\.a-zA-Z0-9]*)*\.pdf$/";
+$allowed_filenames = "/^[a-zA-Z0-9]+[-\/_a-zA-Z0-9]*[-%_\.a-zA-Z0-9]*%".$ruser."(?:%[-_\.a-zA-Z0-9]*)*\.(pdf|html)$/";
 
 # Put overrides of above parameters in a separate file.
 if (file_exists('handback.cfg')) {
@@ -84,7 +84,11 @@ if (is_dir($handbackDir) && is_readable($handbackDir)) {
                 if ($fd = fopen($handbackDir, "r")) {
                     $fsize = filesize($handbackDir);
                     $path_parts = pathinfo($handbackDir);
-                    header("Content-type: application/octet-stream");
+                    if ($path_parts["extension"] == 'html') {
+                        header("Content-type: text/html");
+                    } else {
+                        header("Content-type: application/octet-stream");
+                    }
                     header("Content-disposition: filename=\"".$path_parts["basename"]."\"");
                     header("Content-length: $fsize");
                     header("Cache-control: private");
