@@ -3,7 +3,7 @@ This is for UBC CPSC course accounts to use.
 Simply:
 ```
 cd ~/public\_html
-git clone https://bitbucket.org/UBCCS/handback.git myhandback
+git clone https://github.com/ubc-cpsc/handback.git myhandback
 cd myhandback
 chmod 750 ./
 chmod 640 .htaccess
