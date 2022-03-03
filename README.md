@@ -13,3 +13,6 @@ cp handback.cfg.default handback.cfg
 Then, customize handback.cfg.
 
 You will need to create whatever you set as $handbackDir
+
+By default, users can download files that have '%userid%' in the filename where 'userid' is the user's login id (CWL).
+(See the definition of $allowed_filenames in index.php, and note that you can redefine that in handback.cfg if you like.)
