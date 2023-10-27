@@ -74,7 +74,7 @@ if (! preg_match("/^[a-zA-Z0-9][-a-zA-Z0-9]*[a-zA-Z0-9]$/", $ruser)) {
 
 $course      = 'csNNN';
 $handbackDir = '/home/c/csNNN/public_html/handback/deliverThis';
-$heading     = "<h2>Download $course files for $ruser</h2>";
+$heading     = "<h2>Download $course files + grades for $ruser</h2>";
 $subheading  = "Files for you:<br>";
 $gradesCSV   = 'grades.csv';
 $gsubheading = "Grades for you:<br>";
