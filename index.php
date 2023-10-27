@@ -44,6 +44,21 @@ function getDirectory($path, $allowed_filenames, $level = 0)
     return $retval;
 }
 
+function showGrades($ruser, $csvFile)
+{
+    # Show lines from the csvFile where cwlid=$ruser
+    $retVal = "";
+    $csv = array_map("str_getcsv", file($csvFile, FILE_SKIP_EMPTY_LINES));
+    $keys = array_shift($csv);
+    foreach ($csv as $i=>$row) {
+        $csv[$i] = array_combine($keys, $row);
+        if (array_key_exists('cwlid', $csv[$i]) and $csv[$i]['cwlid'] == $ruser) {
+            $retVal .= json_encode($csv[$i]) . "\n";
+        }
+    }
+    return $retVal;
+}
+
 $ruser = $_SERVER['REMOTE_USER'];
 if (!$ruser) {
     echo "No user id!";
@@ -61,6 +76,8 @@ $course      = 'csNNN';
 $handbackDir = '/home/c/csNNN/public_html/handback/deliverThis';
 $heading     = "<h2>Download $course files for $ruser</h2>";
 $subheading  = "Files for you:<br>";
+$gradesCSV   = 'grades.csv';
+$gsubheading = "Grades for you:<br>";
 
 # don't allow periods in directory names. Prevents hacking using ../
 # Also, 'wall in' userid with a '%' character.
@@ -112,6 +129,12 @@ if (is_dir($handbackDir) && is_readable($handbackDir)) {
         $htmlout .= "<blockquote><pre>\n";
         $htmlout .= getDirectory($handbackDir, $allowed_filenames);
         $htmlout .= "</pre></blockquote>\n";
+	if (file_exists($gradesCSV)) {
+            $htmlout .= "$gsubheading\n";
+            $htmlout .= "<blockquote><pre>\n";
+            $htmlout .= showGrades($ruser, $gradesCSV);
+            $htmlout .= "</pre></blockquote>\n";
+	}
     }
 } else {
     $htmlout .= "There is a problem with the handback dir... ";
