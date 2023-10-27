@@ -52,7 +52,7 @@ function showGrades($ruser, $csvFile)
     $keys = array_shift($csv);
     foreach ($csv as $i=>$row) {
         $csv[$i] = array_combine($keys, $row);
-        if (array_key_exists('cwlid', $csv[$i]) and $csv[$i]['cwlid'] == $ruser) {
+	if (!empty($csv[$i]['cwlid']) && $csv[$i]['cwlid'] === $ruser) {
             $retVal .= json_encode($csv[$i]) . "\n";
         }
     }
