@@ -48,13 +48,18 @@ function showGrades($ruser, $csvFile)
 {
     # Show lines from the csvFile where cwlid=$ruser
     $retVal = "";
-    $csv = array_map("str_getcsv", file($csvFile, FILE_SKIP_EMPTY_LINES));
-    $keys = array_shift($csv);
-    foreach ($csv as $i=>$row) {
-        $csv[$i] = array_combine($keys, $row);
-	if (!empty($csv[$i]['cwlid']) && $csv[$i]['cwlid'] === $ruser) {
-            $retVal .= json_encode($csv[$i]) . "\n";
+    try {
+        $csv = array_map("str_getcsv", file($csvFile, FILE_SKIP_EMPTY_LINES));
+        $keys = array_shift($csv);
+        foreach ($csv as $i=>$row) {
+            $csv[$i] = array_combine($keys, $row);
+            if (!empty($csv[$i]['cwlid']) && $csv[$i]['cwlid'] === $ruser) {
+                $retVal .= json_encode($csv[$i]) . "\n";
+            }
         }
+    } catch (ValueError $e) {
+        error_log('There was a problem processing ' . $csvFile . " - " . $e->getMessage());
+        $retVal .= "There was a problem processing the grades file!\n";
     }
     return $retVal;
 }
