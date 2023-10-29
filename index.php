@@ -44,6 +44,32 @@ function getDirectory($path, $allowed_filenames, $level = 0)
     return $retval;
 }
 
+
+# Adapted from https://stackoverflow.com/a/19294311/9100
+function build_table($array){
+    # start table
+    $html = '<table>';
+
+    # header row
+    $html .= '<tr>';
+    foreach($array as $key=>$value){
+	$html .= '<th>' . htmlspecialchars($key) . '</th>';
+    }
+    $html .= '</tr>';
+
+    # data row
+    $html .= '<tr>';
+    foreach($array as $key=>$value){
+        $html .= '<td>' . htmlspecialchars($value) . '</td>';
+    }
+    $html .= '</tr>';
+
+    # finish table and return it
+    $html .= '</table>';
+    return $html;
+}
+
+
 function showGrades($ruser, $csvFile)
 {
     # Show lines from the csvFile where cwlid=$ruser
@@ -54,7 +80,8 @@ function showGrades($ruser, $csvFile)
         foreach ($csv as $i=>$row) {
             $csv[$i] = array_combine($keys, $row);
             if (!empty($csv[$i]['cwlid']) && $csv[$i]['cwlid'] === $ruser) {
-                $retVal .= json_encode($csv[$i]) . "\n";
+                # $retVal .= json_encode($csv[$i]) . "\n";
+                $retVal .= build_table($csv[$i]) . "\n";
             }
         }
     } catch (ValueError $e) {
@@ -145,13 +172,50 @@ if (is_dir($handbackDir) && is_readable($handbackDir)) {
     $htmlout .= "There is a problem with the handback dir... ";
 }
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8">
     <title>Handback</title>
+    <!--Stylesheet courtesy of https://github.com/mdn/learning-area/blob/master/html/tables/basic/minimal-table.css-->
+    <style>
+html {
+  font-family: sans-serif;
+}
 
-</head>
+table {
+  border-collapse: collapse;
+  border: 2px solid rgb(200,200,200);
+  letter-spacing: 1px;
+  font-size: 0.8rem;
+}
+
+td, th {
+  border: 1px solid rgb(190,190,190);
+  padding: 10px 20px;
+}
+
+th {
+  background-color: rgb(235,235,235);
+}
+
+td {
+  text-align: center;
+}
+
+tr:nth-child(even) td {
+  background-color: rgb(250,250,250);
+}
+
+tr:nth-child(odd) td {
+  background-color: rgb(245,245,245);
+}
+
+caption {
+  padding: 10px;
+}
+    </style>
+  </head>
 <body>
 <?php
 print $heading;
