@@ -45,50 +45,47 @@ function getDirectory($path, $allowed_filenames, $level = 0)
 }
 
 
-# Adapted from https://stackoverflow.com/a/19294311/9100
-function build_table($array){
-    # start table
-    $html = '<table>';
-
-    # header row
-    $html .= '<tr>';
-    foreach($array as $key=>$value){
-	$html .= '<th>' . htmlspecialchars($key) . '</th>';
-    }
-    $html .= '</tr>';
-
-    # data row
-    $html .= '<tr>';
-    foreach($array as $key=>$value){
-        $html .= '<td>' . htmlspecialchars($value) . '</td>';
-    }
-    $html .= '</tr>';
-
-    # finish table and return it
-    $html .= '</table>';
-    return $html;
-}
-
-
+# Table rendering adapted from https://stackoverflow.com/a/19294311/9100
 function showGrades($ruser, $csvFile)
 {
     # Show lines from the csvFile where cwlid=$ruser
-    $retVal = "";
+    $html = "";
     try {
         $csv = array_map("str_getcsv", file($csvFile, FILE_SKIP_EMPTY_LINES));
-        $keys = array_shift($csv);
+	# start table
+        $html = '<table>';
+
+        # header row
+        $html .= '<tr>';
+	$header = array_shift($csv);
+
+        foreach($header as $i=>$headEntry){
+            $html .= '<th>' . htmlspecialchars($headEntry) . '</th>';
+        }
+        $html .= '</tr>';
+
+
+        # table body
         foreach ($csv as $i=>$row) {
-            $csv[$i] = array_combine($keys, $row);
-            if (!empty($csv[$i]['cwlid']) && $csv[$i]['cwlid'] === $ruser) {
-                # $retVal .= json_encode($csv[$i]) . "\n";
-                $retVal .= build_table($csv[$i]) . "\n";
+	    # is this row for $ruser?
+	    $rowDict = array_combine($header, $row);
+            if (!empty($rowDict['cwlid']) && $rowDict['cwlid'] === $ruser) {
+	        # yes, render the row in the table
+                $html .= '<tr>';
+                foreach($row as $i=>$entry){
+                    $html .= '<td>' . htmlspecialchars($entry) . '</td>';
+                }
+                $html .= '</tr>';
             }
         }
+        # finish table and return it
+        $html .= '</table>';
     } catch (ValueError $e) {
-        error_log('There was a problem processing ' . $csvFile . " - " . $e->getMessage());
-        $retVal .= "There was a problem processing the grades file!\n";
+        error_log('There was a problem processing ' . $csvFile . " - " .
+	          $e->getMessage());
+        $html .= "There was a problem processing the grades file!\n";
     }
-    return $retVal;
+    return $html;
 }
 
 $ruser = $_SERVER['REMOTE_USER'];
