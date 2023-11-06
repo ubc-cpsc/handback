@@ -81,8 +81,7 @@ function showGrades($ruser, $csvFile)
         # finish table and return it
         $html .= '</table>';
     } catch (ValueError $e) {
-        error_log('There was a problem processing ' . $csvFile . " - " .
-	          $e->getMessage());
+        error_log('There was a problem processing ' . $csvFile . " - " . $e->getMessage());
         $html .= "There was a problem processing the grades file!\n";
     }
     return $html;
@@ -169,7 +168,7 @@ if (is_dir($handbackDir) && is_readable($handbackDir)) {
     $htmlout .= "There is a problem with the handback dir... ";
 }
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
