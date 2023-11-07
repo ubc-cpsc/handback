@@ -52,13 +52,13 @@ function showGrades($ruser, $csvFile)
     $html = "";
     try {
         $csv = array_map("str_getcsv", file($csvFile, FILE_SKIP_EMPTY_LINES));
-	# start table
+        # start table
         $html = '<table>';
-
+        
         # header row
         $html .= '<tr>';
-	$header = array_shift($csv);
-
+        $header = array_shift($csv);
+        
         foreach($header as $i=>$headEntry){
             $html .= '<th>' . htmlspecialchars($headEntry) . '</th>';
         }
@@ -67,8 +67,8 @@ function showGrades($ruser, $csvFile)
 
         # table body
         foreach ($csv as $i=>$row) {
-	    # is this row for $ruser?
-	    $rowDict = array_combine($header, $row);
+            # is this row for $ruser?
+            $rowDict = array_combine($header, $row);
             if (!empty($rowDict['cwlid']) && $rowDict['cwlid'] === $ruser) {
 	        # yes, render the row in the table
                 $html .= '<tr>';
@@ -157,12 +157,12 @@ if (is_dir($handbackDir) && is_readable($handbackDir)) {
         $htmlout .= "<blockquote><pre>\n";
         $htmlout .= getDirectory($handbackDir, $allowed_filenames);
         $htmlout .= "</pre></blockquote>\n";
-	if (file_exists($gradesCSV)) {
+        if (file_exists($gradesCSV)) {
             $htmlout .= "$gsubheading\n";
             $htmlout .= "<blockquote><pre>\n";
             $htmlout .= showGrades($ruser, $gradesCSV);
             $htmlout .= "</pre></blockquote>\n";
-	}
+        }
     }
 } else {
     $htmlout .= "There is a problem with the handback dir... ";
@@ -170,11 +170,11 @@ if (is_dir($handbackDir) && is_readable($handbackDir)) {
 ?>
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Handback</title>
-    <link rel="stylesheet" href="table.css">
-  </head>
+    <head>
+        <meta charset="utf-8">
+        <title>Handback</title>
+        <link rel="stylesheet" href="table.css">
+    </head>
 <body>
 <?php
 print $heading;
