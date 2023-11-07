@@ -173,9 +173,7 @@ if (is_dir($handbackDir) && is_readable($handbackDir)) {
   <head>
     <meta charset="utf-8">
     <title>Handback</title>
-    <style>
-    <?php include 'table.css'; ?>
-    </style>
+    <link rel="stylesheet" href="table.css">
   </head>
 <body>
 <?php
