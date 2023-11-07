@@ -3,3 +3,6 @@ AuthType Basic
 AuthName "UBC CPSC Handback"
 AuthBasicProvider ldap-domain
 Require valid-user
+
+# Redirect to 404 for protected files and directories.
+RedirectMatch 404 ".*\.csv"
