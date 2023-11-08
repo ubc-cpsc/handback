@@ -44,7 +44,8 @@ student-2,lab2,99%
 Students will see all rows that have `cwlid` matching their CWL ID.
 
 For example, student-1 will see only:
-```
-{"cwlid":"student-1","assignment":"lab1","grade":"100%"}
-{"cwlid":"student-1","assignment":"lab2","grade":"100%"}
-```
+| cwlid     | assignment | grade |
+| --------- | ---------- | ----- |
+| student-1 | lab1       | 100%  |
+| student-1 | lab2       | 100%  |
+
