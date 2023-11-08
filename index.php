@@ -50,6 +50,7 @@ function showGrades($ruser, $csvFile)
 {
     # Show lines from the csvFile where cwlid=$ruser
     $html = "";
+    $anyRows = False;
     try {
         $csv = array_map("str_getcsv", file($csvFile, FILE_SKIP_EMPTY_LINES));
         # start table
@@ -71,6 +72,7 @@ function showGrades($ruser, $csvFile)
             $rowDict = array_combine($header, $row);
             if (!empty($rowDict['cwlid']) && $rowDict['cwlid'] === $ruser) {
 	        # yes, render the row in the table
+                $anyRows = True;
                 $html .= '<tr>';
                 foreach($row as $i=>$entry){
                     $html .= '<td>' . htmlspecialchars($entry) . '</td>';
@@ -84,7 +86,11 @@ function showGrades($ruser, $csvFile)
         error_log('There was a problem processing ' . $csvFile . " - " . $e->getMessage());
         $html .= "There was a problem processing the grades file!\n";
     }
-    return $html;
+    if($anyRows) {
+        return $html;
+    } else {
+        return "";
+    }
 }
 
 $ruser = $_SERVER['REMOTE_USER'];
