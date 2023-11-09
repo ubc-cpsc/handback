@@ -163,7 +163,7 @@ if (is_dir($handbackDir) && is_readable($handbackDir)) {
         $htmlout .= "<blockquote><pre>\n";
         $htmlout .= getDirectory($handbackDir, $allowed_filenames);
         $htmlout .= "</pre></blockquote>\n";
-        if (file_exists($gradesCSV)) {
+        if (file_exists($gradesCSV) && is_readable($gradesCSV)) {
             $htmlout .= "$gsubheading\n";
             $htmlout .= "<blockquote><pre>\n";
             $htmlout .= showGrades($ruser, $gradesCSV);
