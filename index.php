@@ -51,6 +51,10 @@ function showGrades($ruser, $csvFile)
     # Show lines from the csvFile where cwlid=$ruser
     $html = "";
     $anyRows = False;
+
+    if (!file_exists($csvFile) || !is_readable($csvFile)) {
+        return $html;
+    }
     try {
         $csv = array_map("str_getcsv", file($csvFile, FILE_SKIP_EMPTY_LINES));
         # start table
@@ -159,16 +163,16 @@ if (is_dir($handbackDir) && is_readable($handbackDir)) {
             $htmlout .= "Bad file parameter\n";
         }
     } else {
+        # files
         $htmlout .= "$subheading\n";
         $htmlout .= "<blockquote><pre>\n";
         $htmlout .= getDirectory($handbackDir, $allowed_filenames);
         $htmlout .= "</pre></blockquote>\n";
-        if (file_exists($gradesCSV) && is_readable($gradesCSV)) {
-            $htmlout .= "$gsubheading\n";
-            $htmlout .= "<blockquote><pre>\n";
-            $htmlout .= showGrades($ruser, $gradesCSV);
-            $htmlout .= "</pre></blockquote>\n";
-        }
+        # grades
+        $htmlout .= "$gsubheading\n";
+        $htmlout .= "<blockquote><pre>\n";
+        $htmlout .= showGrades($ruser, $gradesCSV);
+        $htmlout .= "</pre></blockquote>\n";
     }
 } else {
     $htmlout .= "There is a problem with the handback dir... ";
