@@ -1,9 +1,9 @@
 <?php
 $course      = 'csNNN';
-$handbackDir = '/home/c/csNNN/public_html/handback/deliverThis';
+$handbackDir = '/home/c/csNNN/deliverThis';
 $heading     = "<h2>Download $course files + grades for $ruser</h2>";
 $subheading  = "Files for you:<br>";
-$gradesCSV   = '/home/c/csNNN/public_html/handback/grades.csv';
+$gradesCSV   = '/home/c/csNNN/grades.csv';
 $gsubheading = "Grades for you:<br>";
 
 # Give administrators access to all files.
