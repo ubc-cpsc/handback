@@ -7,9 +7,10 @@ Simply:
 cd ~/public\_html
 git clone https://github.com/ubc-cpsc/handback.git myhandback
 cd myhandback
-# Check that you have execute permissions for `setup.sh`
-ls -l setup.sh
-./setup.sh
+chmod 750 ./
+chmod 640 .htaccess
+chmod 640 table.css
+cp handback.cfg.default handback.cfg
 ```
 Then, customize handback.cfg. In particular you must set `handbackDir` and `gradesCSV`. This is where handback will look for handback files and grades.
 Note: It is strongly reccomended that you keep any student information (i.e. handback files and grades) out of the `~/public_html` directory.
