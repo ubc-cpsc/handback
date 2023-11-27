@@ -6,3 +6,4 @@ Require valid-user
 
 # Redirect to 404 for protected files and directories.
 RedirectMatch 404 ".*\.csv"
+RedirectMatch 404 ".*\.pdf"
